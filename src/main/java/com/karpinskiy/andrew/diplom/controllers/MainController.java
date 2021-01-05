@@ -17,15 +17,13 @@ public class MainController {
     UserService service;
 
     @PostMapping("/getById")
-    public String getUser (@RequestParam Long id,Model model) {
-        System.out.println("id = " + id);
-        System.out.println(service.getUserById(id).toString());
-        model.addAttribute("id",id);
+    public String getUser(@RequestParam Long id, Model model) {
+        model.addAttribute("id", id);
         return "result";
     }
 
     @GetMapping("/")
-    public String main () {
+    public String main() {
         return "main";
     }
 }
