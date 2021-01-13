@@ -1,45 +1,41 @@
 package com.karpinskiy.andrew.diplom.services;
 
-import com.karpinskiy.andrew.diplom.entitys.User;
-import com.karpinskiy.andrew.diplom.repositories.UserRepo;
+import com.karpinskiy.andrew.diplom.entitys.RoleEntity;
+import com.karpinskiy.andrew.diplom.entitys.UserEntity;
+import com.karpinskiy.andrew.diplom.repositories.RoleEntityRepository;
+import com.karpinskiy.andrew.diplom.repositories.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
+
     @Autowired
-    private UserRepo repository;
-
-
+    private UserEntityRepository userEntityRepository;
+    @Autowired
+    private RoleEntityRepository roleEntityRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-    public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        repository.save(user);
+    public UserEntity saveUser(UserEntity userEntity) {
+        RoleEntity userRole = roleEntityRepository.findByName("ROLE_USER");
+        userEntity.setRoleEntity(userRole);
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        return userEntityRepository.save(userEntity);
     }
 
-    public List<User> qetAllUser() {
-        return (List<User>) repository.findAll();
+    public UserEntity findByEmail(String email) {
+        return userEntityRepository.findByEmail(email);
     }
 
-    public User getUserById(Long id) {
-        return repository.findUserById(id);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByEmail(username);
-    }
-
-    public User getUserByEmail(String name) {
-        return repository.findByEmail(name);
+    public UserEntity findByEmailAndPassword(String email, String password) {
+        UserEntity userEntity = findByEmail(email);
+        if (userEntity != null) {
+            if (passwordEncoder.matches(password, userEntity.getPassword())) {
+                return userEntity;
+            }
+        }
+        return null;
     }
 }

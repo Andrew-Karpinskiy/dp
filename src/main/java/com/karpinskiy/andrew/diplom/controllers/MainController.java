@@ -1,14 +1,12 @@
 package com.karpinskiy.andrew.diplom.controllers;
 
-import com.karpinskiy.andrew.diplom.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class MainController {
 
-    @Autowired
-    UserService service;
+//    @Autowired
+//    UserService service;
 
 //    @PostMapping("/getById")
 //    public String getUser(@RequestParam Long id, Model model) {
