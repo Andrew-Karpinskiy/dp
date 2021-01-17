@@ -1,33 +1,28 @@
 package com.karpinskiy.andrew.diplom.controllers;
 
-import org.springframework.stereotype.Controller;
+import com.karpinskiy.andrew.diplom.controllers.requests.RegistrationRequest;
+import com.karpinskiy.andrew.diplom.entitys.UserEntity;
+import com.karpinskiy.andrew.diplom.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.Map;
+
+@RestController
 public class RegistrationController {
-    // private UserService service;
+    @Autowired
+    private UserService userService;
 
-//    @Autowired
-//    public void setService(UserService service) {
-//        this.service = service;
-//    }
-
-//    @GetMapping("/registration")
-//    public String registration() {
-//        return "registration";
-//    }
-//
-
-//    @RequestMapping(value = "/registration/{em}/{pa}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public Map addUser(@PathVariable("em") String email, @PathVariable("pa") String password) {
-//        System.out.println("CONNECTED!!!!!!!!!!!!!!!");
-//        UserEntity user = new UserEntity(email, password);
-//        UserEntity userFromDb = service.getUserByEmail(user.getUsername());
-//        if (userFromDb != null) {
-//            return Collections.singletonMap("response", "exist");
-//        }
-//        user.setRoles(Collections.singleton(Roles.USER));
-//        service.saveUser(user);
-//        return Collections.singletonMap("response", "correct");
-//    }
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
+        UserEntity u = new UserEntity();
+        u.setPassword(registrationRequest.getPassword());
+        u.setEmail(registrationRequest.getEmail());
+        userService.saveUser(u);
+        return Collections.singletonMap("response", "OK!");
+    }
 }

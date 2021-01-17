@@ -1,16 +1,10 @@
-package com.karpinskiy.andrew.diplom.controllers;
+package com.karpinskiy.andrew.diplom.controllers.requests;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-
 @Data
-public class RegistrationRequest {
-
-    @NotEmpty
+public class AuthRequest {
     private String email;
-
-    @NotEmpty
     private String password;
 
     public String getEmail() {

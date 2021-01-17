@@ -29,6 +29,10 @@ public class UserService {
         return userEntityRepository.findByEmail(email);
     }
 
+    public boolean cheekIfPasswordCorrect(UserEntity userEntity, String password) {
+        return passwordEncoder.matches(password, userEntity.getPassword());
+    }
+
     public UserEntity findByEmailAndPassword(String email, String password) {
         UserEntity userEntity = findByEmail(email);
         if (userEntity != null) {
