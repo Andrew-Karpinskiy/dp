@@ -19,10 +19,16 @@ public class RegistrationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
+        UserEntity userFromDb = userService.findByEmail(registrationRequest.getEmail());
+        if (userFromDb != null) {
+            return Collections.singletonMap("response", "Email exist");
+        }
         UserEntity u = new UserEntity();
         u.setPassword(registrationRequest.getPassword());
         u.setEmail(registrationRequest.getEmail());
         userService.saveUser(u);
         return Collections.singletonMap("response", "OK!");
     }
+
+
 }

@@ -2,7 +2,6 @@ package com.karpinskiy.andrew.diplom.calculators;
 
 public class BodyMassIndexCalculator {
 
-
     public double calculateBmi(double bodyMass, double bodyGrowth) {
         return bodyMass / Math.pow(bodyGrowth, 2);
     }
