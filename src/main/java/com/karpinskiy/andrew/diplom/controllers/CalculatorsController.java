@@ -4,53 +4,48 @@ import com.karpinskiy.andrew.diplom.calculators.BodyMassIndexCalculator;
 import com.karpinskiy.andrew.diplom.calculators.DailyCaloriesAmountCalculator;
 import com.karpinskiy.andrew.diplom.calculators.DailyWaterRequirementCalculator;
 import com.karpinskiy.andrew.diplom.calculators.IdealWeightCalculator;
+import com.karpinskiy.andrew.diplom.controllers.requests.CalculatorsRequest;
+import com.karpinskiy.andrew.diplom.controllers.response.CalculatorsResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.Map;
 
 @RestController
 public class CalculatorsController {
 
 
-    @RequestMapping(value = "/calculators/bmi/{weight}/{height}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    // TODO: сделать так чтобы в клиенте не нужно было писать рост в формате 1.60 а просто 160
+    @RequestMapping(value = "/calculators/bmi", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map getBodyMassIndex(@PathVariable("weight") double weight, @PathVariable("height") double height) {
+    public CalculatorsResponse getBodyMassIndex(@RequestBody CalculatorsRequest calculatorsRequest) {
         BodyMassIndexCalculator bodyMassIndexCalculator = new BodyMassIndexCalculator();
-        double index = bodyMassIndexCalculator.calculateBmi(weight, height);
+        double index = bodyMassIndexCalculator.calculateBmi(calculatorsRequest.getWeight(), calculatorsRequest.getHeight());
         String evaluateBmiIndex = bodyMassIndexCalculator.evaluateBmiIndex(index);
-        return Collections.singletonMap("response", index + " " + evaluateBmiIndex);
+        return new CalculatorsResponse(index, evaluateBmiIndex);
     }
 
-    @RequestMapping(value = "/calculators/dwr/{weight}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/calculators/dwr", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map getDailyWaterRequirement(@PathVariable("weight") double weight) {
+    public CalculatorsResponse getDailyWaterRequirement(@RequestBody CalculatorsRequest calculatorsRequest) {
         DailyWaterRequirementCalculator dailyWaterRequirementCalculator = new DailyWaterRequirementCalculator();
-        double amount = dailyWaterRequirementCalculator.calculateDailyWaterRequirement(weight);
-        return Collections.singletonMap("response", amount);
+        double amount = dailyWaterRequirementCalculator.calculateDailyWaterRequirement(calculatorsRequest.getWeight());
+        return new CalculatorsResponse(amount);
     }
 
-    @RequestMapping(value = "/calculators/iw/{sex}/{height}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/calculators/iw", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map getIdealWeight(@PathVariable("sex") String sex, @PathVariable("height") double height) {
+    public CalculatorsResponse getIdealWeight(@RequestBody CalculatorsRequest calculatorsRequest) {
         IdealWeightCalculator idealWeightCalculator = new IdealWeightCalculator();
-        double result = idealWeightCalculator.calculate(height, sex);
-        return Collections.singletonMap("response", result);
+        double result = idealWeightCalculator.calculate(calculatorsRequest.getHeight(), calculatorsRequest.getSex());
+        return new CalculatorsResponse(result);
     }
 
-    @RequestMapping(value = "/calculators/dcm/{sex}/{weight}/{height}/{age}/{load}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/calculators/dcm", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map getDailyCaloriesAmount(@PathVariable("sex") String sex, @PathVariable("weight") double weight,
-                                      @PathVariable("height") double height, @PathVariable("age") double age,
-                                      @PathVariable("load") int loadFactor) {
+    public CalculatorsResponse getDailyCaloriesAmount(@RequestBody CalculatorsRequest calculatorsRequest) {
         DailyCaloriesAmountCalculator dailyCaloriesAmountCalculator = new DailyCaloriesAmountCalculator();
-        long amount = dailyCaloriesAmountCalculator.calculate(sex, weight, height, age, loadFactor);
-        return Collections.singletonMap("response", amount);
+        long amount = dailyCaloriesAmountCalculator.calculate(calculatorsRequest.getSex(), calculatorsRequest.getWeight(),
+                calculatorsRequest.getHeight(), calculatorsRequest.getAge(), calculatorsRequest.getLoadFactor());
+        return new CalculatorsResponse(amount);
     }
 
 }

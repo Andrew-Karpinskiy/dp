@@ -1,6 +1,7 @@
 package com.karpinskiy.andrew.diplom.controllers;
 
 import com.karpinskiy.andrew.diplom.controllers.requests.RegistrationRequest;
+import com.karpinskiy.andrew.diplom.controllers.response.SimpleResponse;
 import com.karpinskiy.andrew.diplom.entitys.UserEntity;
 import com.karpinskiy.andrew.diplom.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.Map;
 
 @RestController
 public class RegistrationController {
@@ -18,17 +17,15 @@ public class RegistrationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
+    public SimpleResponse registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
         UserEntity userFromDb = userService.findByEmail(registrationRequest.getEmail());
         if (userFromDb != null) {
-            return Collections.singletonMap("response", "Email exist");
+            return new SimpleResponse("Email exist");
         }
         UserEntity u = new UserEntity();
         u.setPassword(registrationRequest.getPassword());
         u.setEmail(registrationRequest.getEmail());
         userService.saveUser(u);
-        return Collections.singletonMap("response", "OK!");
+        return new SimpleResponse("OK!");
     }
-
-
 }
