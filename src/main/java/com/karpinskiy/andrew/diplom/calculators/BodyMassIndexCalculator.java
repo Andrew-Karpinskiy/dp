@@ -3,6 +3,10 @@ package com.karpinskiy.andrew.diplom.calculators;
 public class BodyMassIndexCalculator {
 
     public double calculateBmi(double bodyMass, double bodyGrowth) {
+        if (bodyGrowth == 0) {
+            return 0;
+        }
+        bodyGrowth = bodyGrowth / 100;
         return bodyMass / Math.pow(bodyGrowth, 2);
     }
 
@@ -17,7 +21,7 @@ public class BodyMassIndexCalculator {
             return "Norm";
         }
         if (index >= 25 && index < 30) {
-            return "Overweight (preobesity)";
+            return "Overweight (pre obesity)";
         }
         if (index >= 30 && index < 35) {
             return "Obesity";
