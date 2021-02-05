@@ -7,9 +7,9 @@ public class CalculatorsRequest {
 
     private double weight;
     private double height;
-    private String sex;
+    private String gender;
     private double age;
-    private int loadFactor;
+    private String loadFactor;
 
     public double getWeight() {
         return weight;
@@ -27,12 +27,12 @@ public class CalculatorsRequest {
         this.height = height;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public double getAge() {
@@ -43,11 +43,11 @@ public class CalculatorsRequest {
         this.age = age;
     }
 
-    public int getLoadFactor() {
+    public String getLoadFactor() {
         return loadFactor;
     }
 
-    public void setLoadFactor(int loadFactor) {
+    public void setLoadFactor(String loadFactor) {
         this.loadFactor = loadFactor;
     }
 }

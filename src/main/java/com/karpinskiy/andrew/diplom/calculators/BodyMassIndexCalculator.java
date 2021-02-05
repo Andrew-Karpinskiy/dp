@@ -2,12 +2,12 @@ package com.karpinskiy.andrew.diplom.calculators;
 
 public class BodyMassIndexCalculator {
 
-    public double calculateBmi(double bodyMass, double bodyGrowth) {
-        if (bodyGrowth == 0) {
+    public double calculateBmi(double weight, double height) {
+        if (height == 0) {
             return 0;
         }
-        bodyGrowth = bodyGrowth / 100;
-        return bodyMass / Math.pow(bodyGrowth, 2);
+        height = height / 100;
+        return weight / Math.pow(height, 2);
     }
 
     public String evaluateBmiIndex(double index) {

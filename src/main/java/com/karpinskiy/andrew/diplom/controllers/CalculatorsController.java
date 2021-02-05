@@ -2,7 +2,7 @@ package com.karpinskiy.andrew.diplom.controllers;
 
 import com.karpinskiy.andrew.diplom.calculators.BodyMassIndexCalculator;
 import com.karpinskiy.andrew.diplom.calculators.DailyCaloriesAmountCalculator;
-import com.karpinskiy.andrew.diplom.calculators.DailyWaterRequirementCalculator;
+import com.karpinskiy.andrew.diplom.calculators.DailyWaterAmountCalculator;
 import com.karpinskiy.andrew.diplom.calculators.IdealWeightCalculator;
 import com.karpinskiy.andrew.diplom.controllers.requests.CalculatorsRequest;
 import com.karpinskiy.andrew.diplom.controllers.response.CalculatorsResponse;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CalculatorsController {
 
-
-    // TODO: сделать так чтобы в клиенте не нужно было писать рост в формате 1.60 а просто 160
     @RequestMapping(value = "/calculators/bmi", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CalculatorsResponse getBodyMassIndex(@RequestBody CalculatorsRequest calculatorsRequest) {
@@ -26,8 +24,8 @@ public class CalculatorsController {
     @RequestMapping(value = "/calculators/dwr", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CalculatorsResponse getDailyWaterRequirement(@RequestBody CalculatorsRequest calculatorsRequest) {
-        DailyWaterRequirementCalculator dailyWaterRequirementCalculator = new DailyWaterRequirementCalculator();
-        double amount = dailyWaterRequirementCalculator.calculateDailyWaterRequirement(calculatorsRequest.getWeight());
+        DailyWaterAmountCalculator dailyWaterAmountCalculator = new DailyWaterAmountCalculator();
+        double amount = dailyWaterAmountCalculator.calculateDailyWaterRequirement(calculatorsRequest.getWeight());
         return new CalculatorsResponse(amount);
     }
 
@@ -35,7 +33,7 @@ public class CalculatorsController {
     @ResponseBody
     public CalculatorsResponse getIdealWeight(@RequestBody CalculatorsRequest calculatorsRequest) {
         IdealWeightCalculator idealWeightCalculator = new IdealWeightCalculator();
-        double result = idealWeightCalculator.calculate(calculatorsRequest.getHeight(), calculatorsRequest.getSex());
+        double result = idealWeightCalculator.calculate(calculatorsRequest.getHeight(), calculatorsRequest.getGender());
         return new CalculatorsResponse(result);
     }
 
@@ -43,7 +41,7 @@ public class CalculatorsController {
     @ResponseBody
     public CalculatorsResponse getDailyCaloriesAmount(@RequestBody CalculatorsRequest calculatorsRequest) {
         DailyCaloriesAmountCalculator dailyCaloriesAmountCalculator = new DailyCaloriesAmountCalculator();
-        long amount = dailyCaloriesAmountCalculator.calculate(calculatorsRequest.getSex(), calculatorsRequest.getWeight(),
+        long amount = dailyCaloriesAmountCalculator.calculate(calculatorsRequest.getGender(), calculatorsRequest.getWeight(),
                 calculatorsRequest.getHeight(), calculatorsRequest.getAge(), calculatorsRequest.getLoadFactor());
         return new CalculatorsResponse(amount);
     }
