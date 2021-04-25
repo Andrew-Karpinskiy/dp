@@ -1,6 +1,5 @@
 package com.karpinskiy.andrew.diplom.controllers;
 
-
 import com.karpinskiy.andrew.diplom.config.jwt.JwtProvider;
 import com.karpinskiy.andrew.diplom.controllers.requests.AuthRequest;
 import com.karpinskiy.andrew.diplom.controllers.response.AuthResponse;
