@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
 import java.util.Date;
 
 @RestController
@@ -26,8 +25,7 @@ public class JournalsController {
     public JournalResponse saveStepsJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
         StepsJournalEntity stepsJournalEntity = new StepsJournalEntity();
         UserEntity userEntity = userService.findByEmail(USER_EMAIL);
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
+        Date date = new Date(journalsSaveRequest.getDate());
         stepsJournalEntity.setDate(date);
         stepsJournalEntity.setUserEntity(userEntity);
         stepsJournalEntity.setStepsAmount(Integer.parseInt(journalsSaveRequest.getAmount()));
@@ -40,8 +38,7 @@ public class JournalsController {
     public JournalResponse saveCaloriesJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
         CaloriesJournalEntity caloriesJournalEntity = new CaloriesJournalEntity();
         UserEntity userEntity = userService.findByEmail(USER_EMAIL);
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
+        Date date = new Date(journalsSaveRequest.getDate());
         caloriesJournalEntity.setDate(date);
         caloriesJournalEntity.setUserEntity(userEntity);
         caloriesJournalEntity.setCaloriesAmount(Integer.parseInt(journalsSaveRequest.getAmount()));
@@ -54,8 +51,7 @@ public class JournalsController {
     public JournalResponse saveDistanceJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
         DistanceJournalEntity distanceJournalEntity = new DistanceJournalEntity();
         UserEntity userEntity = userService.findByEmail(USER_EMAIL);
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
+        Date date = new Date(journalsSaveRequest.getDate());
         distanceJournalEntity.setDate(date);
         distanceJournalEntity.setUserEntity(userEntity);
         distanceJournalEntity.setDistanceAmount(Integer.parseInt(journalsSaveRequest.getAmount()));
@@ -68,8 +64,7 @@ public class JournalsController {
     public JournalResponse saveWeightJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
         WeightJournalEntity weightJournalEntity = new WeightJournalEntity();
         UserEntity userEntity = userService.findByEmail(USER_EMAIL);
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
+        Date date = new Date(journalsSaveRequest.getDate());
         weightJournalEntity.setDate(date);
         weightJournalEntity.setUserEntity(userEntity);
         weightJournalEntity.setWeight(Double.parseDouble(journalsSaveRequest.getAmount()));
