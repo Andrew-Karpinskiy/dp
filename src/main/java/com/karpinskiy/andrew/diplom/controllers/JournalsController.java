@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class JournalsController {
@@ -70,5 +73,61 @@ public class JournalsController {
         weightJournalEntity.setWeight(Double.parseDouble(journalsSaveRequest.getAmount()));
         journalsService.saveWeightJournal(weightJournalEntity);
         return new JournalResponse("OK");
+    }
+
+    @RequestMapping(value = "/journals/get/steps", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public JournalResponse getStepsJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
+        UserEntity userFromDb = userService.findByEmail(USER_EMAIL);
+        Date date = new Date(journalsSaveRequest.getDate());
+        System.out.println("DATE : " + date.toString());
+        System.out.println("userFromDb : " + userFromDb.getEmail());
+        List<StepsJournalEntity> stepsJournalEntities = journalsService.getStepsJournalLastWeek(userFromDb, date);
+        System.out.println("stepsJournalEntities : " + stepsJournalEntities.toString());
+        Map<String, String> journalMap = new HashMap<>();
+        for (StepsJournalEntity sje : stepsJournalEntities) {
+            journalMap.put(String.valueOf(sje.getDate()), String.valueOf(sje.getStepsAmount()));
+        }
+        System.out.println("journalMap : " + journalMap.toString());
+        return new JournalResponse(journalMap);
+    }
+
+    @RequestMapping(value = "/journals/get/weight", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public JournalResponse getWeightJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
+        UserEntity userFromDb = userService.findByEmail(USER_EMAIL);
+        Date date = new Date(journalsSaveRequest.getDate());
+        List<WeightJournalEntity> weightJournalEntities = journalsService.getWeightJournalLastWeek(userFromDb, date);
+        Map<String, String> journalMap = new HashMap<>();
+        for (WeightJournalEntity sje : weightJournalEntities) {
+            journalMap.put(String.valueOf(sje.getDate()), String.valueOf(sje.getWeight()));
+        }
+        return new JournalResponse(journalMap);
+    }
+
+    @RequestMapping(value = "/journals/get/calories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public JournalResponse getCaloriesJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
+        UserEntity userFromDb = userService.findByEmail(USER_EMAIL);
+        Date date = new Date(journalsSaveRequest.getDate());
+        List<CaloriesJournalEntity> caloriesJournalEntities = journalsService.getCaloriesJournalLastWeek(userFromDb, date);
+        Map<String, String> journalMap = new HashMap<>();
+        for (CaloriesJournalEntity sje : caloriesJournalEntities) {
+            journalMap.put(String.valueOf(sje.getDate()), String.valueOf(sje.getCaloriesAmount()));
+        }
+        return new JournalResponse(journalMap);
+    }
+
+    @RequestMapping(value = "/journals/get/distance", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public JournalResponse getDistanceJournal(@RequestBody JournalsSaveRequest journalsSaveRequest) {
+        UserEntity userFromDb = userService.findByEmail(USER_EMAIL);
+        Date date = new Date(journalsSaveRequest.getDate());
+        List<DistanceJournalEntity> distanceJournalEntities = journalsService.getDistanceJournalLastWeek(userFromDb, date);
+        Map<String, String> journalMap = new HashMap<>();
+        for (DistanceJournalEntity sje : distanceJournalEntities) {
+            journalMap.put(String.valueOf(sje.getDate()), String.valueOf(sje.getDistanceAmount()));
+        }
+        return new JournalResponse(journalMap);
     }
 }
