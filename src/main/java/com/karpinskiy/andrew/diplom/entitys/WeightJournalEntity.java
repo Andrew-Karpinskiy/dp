@@ -10,7 +10,7 @@ public class WeightJournalEntity {
     @GeneratedValue()
     private Long id;
     private Date date;
-    private Double weight;
+    private Integer weight;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
@@ -34,11 +34,11 @@ public class WeightJournalEntity {
         this.date = date;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 

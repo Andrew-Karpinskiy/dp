@@ -70,7 +70,7 @@ public class JournalsController {
         Date date = new Date(journalsSaveRequest.getDate());
         weightJournalEntity.setDate(date);
         weightJournalEntity.setUserEntity(userEntity);
-        weightJournalEntity.setWeight(Double.parseDouble(journalsSaveRequest.getAmount()));
+        weightJournalEntity.setWeight(Integer.parseInt(journalsSaveRequest.getAmount()));
         journalsService.saveWeightJournal(weightJournalEntity);
         return new JournalResponse("OK");
     }
