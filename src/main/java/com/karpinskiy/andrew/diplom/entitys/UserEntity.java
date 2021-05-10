@@ -12,6 +12,8 @@ public class UserEntity {
 
     private String email;
     private String password;
+    private String name;
+    private String lastName;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -50,5 +52,21 @@ public class UserEntity {
 
     public void setRoleEntity(RoleEntity roleEntity) {
         this.roleEntity = roleEntity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
