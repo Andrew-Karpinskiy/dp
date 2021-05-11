@@ -4,7 +4,7 @@ public class DailyCaloriesAmountCalculator {
 
     public long calculate(String gender, double weight, double height, double age, String loadFactor) {
         double amountCalories;
-        if (gender.equals("Man")) {
+        if (gender.equals("Чоловіча")) {
             amountCalories = calculateDailyCaloriesForMen(weight, height, age);
         } else {
             amountCalories = calculateDailyCaloriesForWomen(weight, height, age);
@@ -22,15 +22,15 @@ public class DailyCaloriesAmountCalculator {
 
     private double multiplyByLoadFactor(double amountCalories, String loadFactor) {
         switch (loadFactor) {
-            case "No coefficient":
+            case "Відсутній":
                 return amountCalories;
-            case "Minimum":
+            case "Мінімальний":
                 return amountCalories * 1.2;
-            case "Low":
+            case "Низький":
                 return amountCalories * 1.375;
-            case "Average":
+            case "Середній":
                 return amountCalories * 1.55;
-            case "High":
+            case "Високий":
                 return amountCalories * 1.725;
             default:
                 return amountCalories * 1.9;

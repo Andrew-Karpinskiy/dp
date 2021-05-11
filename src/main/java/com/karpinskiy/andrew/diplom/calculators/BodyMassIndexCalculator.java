@@ -12,25 +12,25 @@ public class BodyMassIndexCalculator {
 
     public String evaluateBmiIndex(double index) {
         if (index <= 15) {
-            return "Severe underweight";
+            return "Сильна недостатність";
         }
         if (index >= 16 && index < 18.5) {
-            return "Underweight";
+            return "Недостатня вага";
         }
         if (index >= 18.5 && index < 25) {
-            return "Norm";
+            return "Норма";
         }
         if (index >= 25 && index < 30) {
-            return "Overweight (pre obesity)";
+            return "Надмірна вага";
         }
         if (index >= 30 && index < 35) {
-            return "Obesity";
+            return "Ожиріння";
         }
         if (index >= 35 && index < 40) {
-            return "Acute obesity";
+            return "Гостре ожиріння";
         }
         if (index >= 40) {
-            return "Very severe obesity";
+            return "Дуже важке ожиріння";
         }
         return null;
     }

@@ -3,7 +3,7 @@ package com.karpinskiy.andrew.diplom.calculators;
 public class IdealWeightCalculator {
 
     public double calculate(double height, String sex) {
-        if (sex.equals("Man")) {
+        if (sex.equals("Чоловіча")) {
             return calculateIdealWeightForMen(height);
         } else {
             return calculateIdealWeightForWomen(height);
